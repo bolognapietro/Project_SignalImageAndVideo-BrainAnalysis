@@ -1,2 +1,1 @@
-# signal-image-and-video-project
-Project developed by Pietro Bologna and Christian Sassi for the Signal, Image and Video course.
+![Dogs Typing](https://media.giphy.com/media/Dh5q0sShxgp13DwrvG/giphy.gif)
