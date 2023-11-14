@@ -6,15 +6,15 @@ if __name__ == "__main__":
 
     # Load and display the input image
     img = utils.load_img(filename=r"img/brain.jpg")
-    utils.show_img(src=img)
+    #utils.show_img(src=img)
 
     # Pre-process image
     img1 = image_processing.adjust_image(src=img)
-    utils.show_img(src=img1)
+    #utils.show_img(src=img1)
 
     # Remove skull
     img2 = image_processing.remove_skull(src=img1)
-    utils.show_img(src=img2)
+    #utils.show_img(src=img2)
 
     # Segmentation
     images = segmentation_2D.kmeans_segmentation(src=img2)

@@ -65,7 +65,9 @@ def remove_skull(src: np.ndarray) -> np.ndarray:
     _, markers = cv2.connectedComponents(image=thresh)
     marker_area = [np.sum(a=markers == m) for m in range(np.max(a=markers)) if m != 0] 
 
-    if not len(marker_area):
+    # <= 1 because sometimes we work with brain images that doesn't have the skull
+    #TODO fix this if we have multiple small marker area but non the skull
+    if len(marker_area) <= 1:
         return img
 
     # Get largest area (excluding background)
