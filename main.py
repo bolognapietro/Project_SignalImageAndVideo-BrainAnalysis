@@ -8,7 +8,7 @@ import numpy as np
 if __name__ == "__main__":
 
     # Load and display the input image
-    img = utils.load_img(filename=r"")
+    img = utils.load_img(filename=r"img/brain.jpg")
     utils.show_img(src=img)
 
     # Pre-process image
