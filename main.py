@@ -2,9 +2,6 @@ import src.image_processing as image_processing
 import src.utils as utils
 import src.segmentation_2D as segmentation_2D
 
-import cv2 
-import numpy as np
-
 if __name__ == "__main__":
 
     # Load and display the input image
