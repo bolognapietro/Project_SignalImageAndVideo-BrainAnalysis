@@ -16,8 +16,6 @@ import numpy as np
 
 import distinctipy
 
-import utils
-
 def area_classification(images: dict) -> dict:
     """
     Classifies each segment, regardless of the algorithm used.
@@ -88,7 +86,7 @@ def kmeans_segmentation(src: np.ndarray, k: int = 3) -> dict:
     #img = cv2.cvtColor(src=img, code=cv2.COLOR_BGR2GRAY)
 
     # Reshape the image to a single array of pixels
-    pixels = img.reshape(shape=(-1, 3))
+    pixels = img.reshape((-1, 3))
 
     # Convert the data type to float32
     pixels = np.float32(pixels)
@@ -112,7 +110,7 @@ def kmeans_segmentation(src: np.ndarray, k: int = 3) -> dict:
     segmented_image = centers[labels.flatten()]
 
     # Reshape back to the original image shape
-    segmented_image = segmented_image.reshape(shape=img.shape)
+    segmented_image = segmented_image.reshape(img.shape)
 
     # Retrieve the k colors
     segment_colors = list(set(segmented_image.ravel().tolist()))
@@ -209,7 +207,7 @@ def kmeans_segmentation(src: np.ndarray, k: int = 3) -> dict:
             mask1 = final_image > 0
             mask2 = colored > 0
 
-            final_image = np.where(condition=mask1, x=final_image, y=np.where(condition=mask2, x=colored, y=0))
+            final_image = np.where(mask1, final_image, np.where(mask2, colored, 0))
     
     images["complete"] = final_image
     images["segments"] = fixed_segments
