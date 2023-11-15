@@ -137,14 +137,14 @@ def remove_skull(src: np.ndarray) -> np.ndarray:
     contours, _ = cv2.findContours(image=gray, mode=cv2.RETR_EXTERNAL, method=cv2.CHAIN_APPROX_SIMPLE)
 
     # Create a mask with zeros (black)
-    mask = np.zeros_like(gray)
+    mask = np.zeros_like(a=gray)
 
     # Draw the contour on the mask
-    cv2.drawContours(mask, contours, -1, (255), thickness=cv2.FILLED)
+    cv2.drawContours(image=mask, contours=contours, contourIdx=-1, color=(255), thickness=cv2.FILLED)
 
     # Set all pixels outside the contour to 0
     brain = img.copy()
-    brain = cv2.bitwise_and(brain, brain, mask=mask)
+    brain = cv2.bitwise_and(src1=brain, src2=brain, mask=mask)
 
     # Return the image
     return brain

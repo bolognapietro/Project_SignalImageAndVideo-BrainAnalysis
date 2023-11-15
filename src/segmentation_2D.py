@@ -16,6 +16,8 @@ import numpy as np
 
 import distinctipy
 
+import utils
+
 def area_classification(images: dict) -> dict:
     """
     Classifies each segment, regardless of the algorithm used.
@@ -50,7 +52,7 @@ def area_classification(images: dict) -> dict:
         _, thresh = cv2.threshold(src=gray, thresh=80, maxval=255, type=cv2.THRESH_BINARY)
 
         # Area will be used for classification
-        segment["area"] = cv2.countNonZero(thresh)
+        segment["area"] = cv2.countNonZero(src=thresh)
     
     images["segments"].sort(key=lambda segment: segment["area"])
     
@@ -86,7 +88,7 @@ def kmeans_segmentation(src: np.ndarray, k: int = 3) -> dict:
     #img = cv2.cvtColor(src=img, code=cv2.COLOR_BGR2GRAY)
 
     # Reshape the image to a single array of pixels
-    pixels = img.reshape((-1, 3))
+    pixels = img.reshape(shape=(-1, 3))
 
     # Convert the data type to float32
     pixels = np.float32(pixels)
@@ -101,7 +103,7 @@ def kmeans_segmentation(src: np.ndarray, k: int = 3) -> dict:
 
     criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 100, 0.2)
 
-    _, labels, centers = cv2.kmeans(pixels, k, None, criteria, 10, cv2.KMEANS_RANDOM_CENTERS)
+    _, labels, centers = cv2.kmeans(data=pixels, K=k, bestLabels=None, criteria=criteria, attempts=10, flags=cv2.KMEANS_RANDOM_CENTERS)
 
     # Convert back to 8-bit values
     centers = np.uint8(centers)
@@ -110,7 +112,7 @@ def kmeans_segmentation(src: np.ndarray, k: int = 3) -> dict:
     segmented_image = centers[labels.flatten()]
 
     # Reshape back to the original image shape
-    segmented_image = segmented_image.reshape(img.shape)
+    segmented_image = segmented_image.reshape(shape=img.shape)
 
     # Retrieve the k colors
     segment_colors = list(set(segmented_image.ravel().tolist()))
@@ -127,7 +129,7 @@ def kmeans_segmentation(src: np.ndarray, k: int = 3) -> dict:
     # Generate k random distinct color
     colors = []
 
-    for color in distinctipy.get_colors(len(segment_colors)):
+    for color in distinctipy.get_colors(n_colors=len(segment_colors)):
         color = [int(channel*255) for channel in color]
         colors.append(color)
 
@@ -139,7 +141,7 @@ def kmeans_segmentation(src: np.ndarray, k: int = 3) -> dict:
         segment_image = segmented_image.copy()
 
         # Create the mask
-        mask = cv2.inRange(segment_image, segment_color, segment_color)
+        mask = cv2.inRange(src=segment_image, lowerb=segment_color, upperb=segment_color)
         
         # Apply the mask
         segment_image[mask <= 0] = [0,0,0]
@@ -174,10 +176,10 @@ def kmeans_segmentation(src: np.ndarray, k: int = 3) -> dict:
     contours, _ = cv2.findContours(image=gray, mode=cv2.RETR_EXTERNAL, method=cv2.CHAIN_APPROX_SIMPLE)
 
     # Create an empty mask with the same dimensions as the image
-    mask = np.zeros_like(gray)
+    mask = np.zeros_like(a=gray)
 
     # Draw the contour on the mask
-    cv2.drawContours(mask, contours, -1, (255), thickness=cv2.FILLED)
+    cv2.drawContours(image=mask, contours=contours, contourIdx=-1, color=(255), thickness=cv2.FILLED)
 
     final_image = None
     fixed_segments = []
@@ -188,8 +190,8 @@ def kmeans_segmentation(src: np.ndarray, k: int = 3) -> dict:
         black_and_white = segment["black_and_white"]
 
         # Use the mask to keep only the region inside the contour in the original imageù
-        colored = cv2.bitwise_and(colored, colored, mask=mask)
-        black_and_white = cv2.bitwise_and(black_and_white, black_and_white, mask=mask)
+        colored = cv2.bitwise_and(src1=colored, src2=colored, mask=mask)
+        black_and_white = cv2.bitwise_and(src1=black_and_white, src2=black_and_white, mask=mask)
 
         fixed_segments.append({
             "colored": colored,
@@ -207,7 +209,7 @@ def kmeans_segmentation(src: np.ndarray, k: int = 3) -> dict:
             mask1 = final_image > 0
             mask2 = colored > 0
 
-            final_image = np.where(mask1, final_image, np.where(mask2, colored, 0))
+            final_image = np.where(condition=mask1, x=final_image, y=np.where(condition=mask2, x=colored, y=0))
     
     images["complete"] = final_image
     images["segments"] = fixed_segments
