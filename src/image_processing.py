@@ -5,6 +5,8 @@ Provides advanced functions for processing MRI brain images.
 import numpy as np
 import cv2
 
+import math
+
 def adjust_image(src: np.ndarray) -> np.ndarray:
     """
     Processes an MRI image by performing the following operations:
