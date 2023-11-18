@@ -1,3 +1,4 @@
 distinctipy
 numpy
 opencv-python
+scikit-image

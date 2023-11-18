@@ -4,6 +4,8 @@ Provides advanced functions for processing MRI brain images.
 
 import numpy as np
 import cv2
+from skimage.restoration import denoise_tv_bregman
+from skimage.util import img_as_ubyte
 
 import math
 
@@ -11,6 +13,7 @@ def adjust_image(src: np.ndarray) -> np.ndarray:
     """
     Processes an MRI image by performing the following operations:
     
+    - Denoising the image using split-Bregman optimization.
     - Setting the background color to black.
 
     :param src: Image to be adjusted.
@@ -22,6 +25,11 @@ def adjust_image(src: np.ndarray) -> np.ndarray:
 
     # Copy the image
     img = src.copy()
+
+    #? Denoise the image using split-Bregman optimization
+
+    img = denoise_tv_bregman(img, 4)
+    img = img_as_ubyte(img)
 
     #? Adjust the image
 
