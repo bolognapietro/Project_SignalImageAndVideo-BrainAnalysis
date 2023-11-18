@@ -1,23 +1,23 @@
-import src.image_processing as image_processing
+import src.processing as processing
 import src.utils as utils
-import src.segmentation_2D as segmentation_2D
+import src.segmentation as segmentation
 
 if __name__ == "__main__":
 
     # Load and display the input image
-    img = utils.load_img(filename=r"img/brain2.png")
+    img = utils.load_img(filename=r"img/brain1.png")
     utils.show_img(src=img)
 
     # Pre-process image
-    img1 = image_processing.adjust_image(src=img)
+    img1 = processing.adjust_image(src=img)
     utils.show_img(src=img1)
 
     # Remove skull
-    img2 = image_processing.remove_skull(src=img1)
-    utils.show_img(src=img2)
+    #img2 = processing.remove_skull(src=img1)
+    #utils.show_img(src=img2)
 
     # Segmentation
-    images = segmentation_2D.kmeans_segmentation(src=img2)
+    images = segmentation.kmeans_segmentation(src=img1)
 
     grid = [img]
     grid.append(images["complete"])

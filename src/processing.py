@@ -7,8 +7,6 @@ import cv2
 from skimage.restoration import denoise_tv_bregman
 from skimage.util import img_as_ubyte
 
-import math
-
 def adjust_image(src: np.ndarray) -> np.ndarray:
     """
     Processes an MRI image by performing the following operations:

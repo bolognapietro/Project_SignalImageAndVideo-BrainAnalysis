@@ -1,7 +1,7 @@
-image\_processing module
+processing module
 ========================
 
-.. automodule:: image_processing
+.. automodule:: processing
    :members:
    :undoc-members:
    :show-inheritance:

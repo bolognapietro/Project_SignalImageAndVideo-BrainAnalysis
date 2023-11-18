@@ -1,7 +1,7 @@
-segmentation\_2D module
+segmentation module
 =======================
 
-.. automodule:: segmentation_2D
+.. automodule:: segmentation
    :members:
    :undoc-members:
    :show-inheritance:
