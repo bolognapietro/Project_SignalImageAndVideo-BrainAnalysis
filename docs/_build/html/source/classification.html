@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>src &mdash; Signal, Image and Video 00.00.01 documentation</title>
+  <title>classification module &mdash; Signal, Image and Video 00.00.01 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
     <link rel="shortcut icon" href="../_static/icon-2d.ico"/>
@@ -43,7 +43,10 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <!-- Local TOC -->
               <div class="local-toc"><ul>
-<li><a class="reference internal" href="#">src</a></li>
+<li><a class="reference internal" href="#">classification module</a><ul>
+<li><a class="reference internal" href="#classification.area_classification"><code class="docutils literal notranslate"><span class="pre">area_classification()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </div>
         </div>
@@ -60,9 +63,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">src</li>
+      <li class="breadcrumb-item active">classification module</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/source/modules.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/source/classification.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -70,31 +73,42 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="src">
-<h1>src<a class="headerlink" href="#src" title="Permalink to this heading"></a></h1>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="classification.html">classification module</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="classification.html#classification.area_classification"><code class="docutils literal notranslate"><span class="pre">area_classification()</span></code></a></li>
+  <section id="module-classification">
+<span id="classification-module"></span><h1>classification module<a class="headerlink" href="#module-classification" title="Permalink to this heading"></a></h1>
+<p>Provides functions for the classification of segments of MRI brain images.
+The goal is to classify the provided regions (segments) in:</p>
+<ul class="simple">
+<li><p>Grey matter.</p></li>
+<li><p>Cerebrospinal fluid.</p></li>
+<li><p>White matter.</p></li>
 </ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="processing.html">processing module</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="processing.html#processing.adjust_image"><code class="docutils literal notranslate"><span class="pre">adjust_image()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="processing.html#processing.remove_skull"><code class="docutils literal notranslate"><span class="pre">remove_skull()</span></code></a></li>
+<dl class="py function">
+<dt class="sig sig-object py" id="classification.area_classification">
+<span class="sig-prename descclassname"><span class="pre">classification.</span></span><span class="sig-name descname"><span class="pre">area_classification</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">images</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#classification.area_classification" title="Permalink to this definition"></a></dt>
+<dd><p>Classifies each segment, regardless of the algorithm used.
+This method is based on the area, specifically the ratio of white pixels to black pixels in each segment.
+This allows for the classification of each segment; the cerebrospinal fluid has the smallest amount of white pixels,
+grey matter has a moderate amount, and white matter has the highest amount of white pixels.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>images</strong> (<em>dict</em>) – Dictionary object resulting from segmentation algorithm.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p>A dictionary is provided, containing the segmented image where each segment is
+now classified. The possible classes are:</p>
+<ul class="simple">
+<li><p>Grey matter.</p></li>
+<li><p>Cerebrospinal fluid.</p></li>
+<li><p>White matter.</p></li>
 </ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="segmentation.html">segmentation module</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="segmentation.html#segmentation.kmeans_segmentation"><code class="docutils literal notranslate"><span class="pre">kmeans_segmentation()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="utils.html">utils module</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="utils.html#utils.load_img"><code class="docutils literal notranslate"><span class="pre">load_img()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="utils.html#utils.save_img"><code class="docutils literal notranslate"><span class="pre">save_img()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="utils.html#utils.show_img"><code class="docutils literal notranslate"><span class="pre">show_img()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</div>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 
 
