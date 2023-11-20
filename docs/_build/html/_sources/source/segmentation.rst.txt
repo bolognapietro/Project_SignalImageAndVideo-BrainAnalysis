@@ -1,5 +1,5 @@
 segmentation module
-=======================
+===================
 
 .. automodule:: segmentation
    :members:

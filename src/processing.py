@@ -31,27 +31,37 @@ def adjust_image(src: np.ndarray) -> np.ndarray:
 
     #? Denoise the image using split-Bregman optimization
 
-    gray = denoise_tv_bregman(gray, 4)
-    gray = img_as_ubyte(gray)
+    denoised = denoise_tv_bregman(gray, 4)
+    denoised = img_as_ubyte(denoised)
 
-    #? Perform histogram equalization
+    #? Perform histogram equalization only on the brain
 
-    gray = cv2.equalizeHist(gray)
+    equalized = cv2.equalizeHist(denoised)
+    equalized = cv2.cvtColor(equalized, cv2.COLOR_GRAY2BGR)
 
-    #? Adjust the image
-
-    # Threshold the image
-    _, thresh = cv2.threshold(src=gray, thresh=0, maxval=255, type=cv2.THRESH_BINARY)
-
-    # Find contours
+    # Extract the brain
+    _, thresh = cv2.threshold(src=denoised, thresh=50, maxval=255, type=cv2.THRESH_BINARY)
     contours, _ = cv2.findContours(image=thresh, mode=cv2.RETR_EXTERNAL, method=cv2.CHAIN_APPROX_SIMPLE)
 
-    # Fill the external pixels of black
-    stencil = np.zeros(shape=img.shape).astype(dtype=img.dtype)
-    cv2.fillPoly(img=stencil, pts=contours, color=(255,255,255))
-    img = cv2.bitwise_and(src1=cv2.cvtColor(gray, cv2.COLOR_GRAY2BGR), src2=stencil)
+    # Create a black image (all zeros) with the same size as img
+    merged = np.zeros_like(img)
 
-    return img
+    # Draw the contour of the brain on merged
+    cv2.drawContours(merged, [contours[0]], 0, (255, 255, 255), thickness=cv2.FILLED)
+
+    # Create a mask for the region inside the contour
+    mask = np.zeros_like(denoised)
+    cv2.drawContours(mask, [contours[0]], 0, (255, 255, 255), thickness=cv2.FILLED)
+
+    # Assign equalized inside the brain
+    merged[mask == 255] = equalized[mask == 255]
+
+    # Assign denoised outside the brain. 
+    # In this way we can denoise the background and make it all black, without doing equalization on it
+    denoised = cv2.cvtColor(denoised, cv2.COLOR_GRAY2BGR)
+    merged[mask == 0] = denoised[mask == 0]
+
+    return merged
 
 def remove_skull(src: np.ndarray) -> np.ndarray:
     """
