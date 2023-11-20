@@ -12,6 +12,7 @@ def adjust_image(src: np.ndarray) -> np.ndarray:
     Processes an MRI image by performing the following operations:
     
     - Denoising the image using split-Bregman optimization.
+    - Histogram equalization.
     - Setting the background color to black.
 
     :param src: Image to be adjusted.
@@ -24,15 +25,20 @@ def adjust_image(src: np.ndarray) -> np.ndarray:
     # Copy the image
     img = src.copy()
 
+    #? Convert to grayscale
+
+    gray = cv2.cvtColor(src=img, code=cv2.COLOR_BGR2GRAY)
+
     #? Denoise the image using split-Bregman optimization
 
-    img = denoise_tv_bregman(img, 4)
-    img = img_as_ubyte(img)
+    gray = denoise_tv_bregman(gray, 4)
+    gray = img_as_ubyte(gray)
+
+    #? Perform histogram equalization
+
+    gray = cv2.equalizeHist(gray)
 
     #? Adjust the image
-
-    # Convert to grayscale
-    gray = cv2.cvtColor(src=img, code=cv2.COLOR_BGR2GRAY)
 
     # Threshold the image
     _, thresh = cv2.threshold(src=gray, thresh=0, maxval=255, type=cv2.THRESH_BINARY)
@@ -43,7 +49,7 @@ def adjust_image(src: np.ndarray) -> np.ndarray:
     # Fill the external pixels of black
     stencil = np.zeros(shape=img.shape).astype(dtype=img.dtype)
     cv2.fillPoly(img=stencil, pts=contours, color=(255,255,255))
-    img = cv2.bitwise_and(src1=img, src2=stencil)
+    img = cv2.bitwise_and(src1=cv2.cvtColor(gray, cv2.COLOR_GRAY2BGR), src2=stencil)
 
     return img
 
