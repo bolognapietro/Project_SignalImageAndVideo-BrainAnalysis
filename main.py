@@ -5,8 +5,8 @@ import src.segmentation as segmentation
 if __name__ == "__main__":
 
     # Load and display the input image
-    img = utils.load_img(filename=r"img/brain1.png")
-    utils.show_img(src=img)
+    img = utils.load_img(filename=r"img/test/1.png")
+    #utils.show_img(src=img)
 
     # Pre-process image
     img1 = processing.adjust_image(src=img)
