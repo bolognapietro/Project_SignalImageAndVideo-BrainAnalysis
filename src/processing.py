@@ -63,6 +63,32 @@ def adjust_image(src: np.ndarray) -> np.ndarray:
 
     return merged
 
+def merge_images(src1: np.ndarray, src2: np.ndarray):
+    """
+    Merges two images.
+
+    :param src1: Image1.
+    :type src: np.ndarray.
+
+    :param src2: Image2.
+    :type src: np.ndarray.
+
+    :return: Merged image.
+    :rtype: np.ndarray
+    """
+
+    gray = cv2.cvtColor(src2, cv2.COLOR_BGR2GRAY)
+    _, thresh = cv2.threshold(gray, 1, 255, cv2.THRESH_BINARY)
+
+    # Create the mask
+    mask_inv = cv2.bitwise_not(thresh)
+
+    # Use the mask to color non-black pixels in src1 with corresponding pixels from src2
+    result = cv2.bitwise_and(src1, src1, mask=mask_inv)
+    result = cv2.add(result, src2)
+
+    return result
+
 def remove_skull(src: np.ndarray) -> np.ndarray:
     """
     Removes the skull from an MRI brain image.
@@ -70,7 +96,7 @@ def remove_skull(src: np.ndarray) -> np.ndarray:
     :param src: Image to be processed.
     :type src: np.ndarray.
 
-    :return: processed image.
+    :return: Processed image.
     :rtype: np.ndarray
     """
 
@@ -116,47 +142,64 @@ def remove_skull(src: np.ndarray) -> np.ndarray:
     brain = img.copy()
     brain[mask == False] = (0, 0, 0)
 
-    return brain
+    mask = np.zeros_like(img)
+    mask[markers == 1] = (255, 255, 255)
+    mask = cv2.cvtColor(mask, cv2.COLOR_BGR2GRAY)
 
-def find_best_brain_contour(original_image: np.ndarray, brain: np.ndarray) -> tuple:
+    skull = img.copy()
+    skull[mask == False] = (0, 0, 0)
 
-    img1 = original_image.copy()
-    img2 = brain.copy()
+    return brain, skull
 
-    gray = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)
-    _, thresh = cv2.threshold(src=gray, thresh=0, maxval=255, type=cv2.THRESH_BINARY)
+def find_best_brain_contour(src: np.ndarray) -> tuple:
+    """
+    Find the best contour of the brain.
+
+    :param src: Brain image to be processed.
+    :type src: np.ndarray.
+
+    :return: Processed image and mask of the contour.
+    :rtype: tuple
+    """
+
+    brain1 = src.copy()
+    brain2 = src.copy()
+
+    # Extract all the external point top/bottom approach and fill the columns of pixels of white
+    for x in range(0, brain1.shape[1]):
+
+        if np.all(brain1[:, x] == 0):
+            continue
+        
+        non_zero = cv2.findNonZero(brain1[:, x])
     
-    best_image = None
-    best_mask = None
+        y_top = non_zero[0][0][1]
+        y_bottom = non_zero[-1][0][1]
 
-    while True:
+        brain1[y_top:y_bottom+1, x] = (255, 255, 255)
 
-        contours, _ = cv2.findContours(image=thresh, mode=cv2.RETR_EXTERNAL, method=cv2.CHAIN_APPROX_SIMPLE)
+    # Extract all the external point left/right approach and fill the columns of pixels of white
+    for y in range(0, brain1.shape[0]):
 
-        mask = np.zeros(img1.shape, dtype=np.uint8)
-        mask = cv2.cvtColor(mask, cv2.COLOR_BGR2GRAY)
+        if np.all(brain1[y, :] == 0):
+            continue
+        
+        non_zero = cv2.findNonZero(brain1[y, :])
 
-        cv2.drawContours(thresh, contours, -1, (0, 0, 0), thickness=1)
-        cv2.drawContours(mask, contours, -1, (255, 255, 255), thickness=1)
+        x_left = non_zero[0][0][1]
+        x_right = non_zero[-1][0][1]
 
-        tmp = img2.copy()
-        tmp[mask != False] = (0, 0, 0)
+        brain1[y, x_left:x_right+1] = (255, 255, 255)
 
-        if best_image is not None:
+    # Create and apply mask
+    gray = cv2.cvtColor(brain1, cv2.COLOR_BGR2GRAY)
+    contours, _ = cv2.findContours(gray, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
-            best_gray = cv2.cvtColor(best_image, cv2.COLOR_BGR2GRAY)
-            best_count = cv2.countNonZero(best_gray)
+    mask = np.zeros(brain1.shape, dtype=np.uint8)
+    mask = cv2.cvtColor(mask, cv2.COLOR_BGR2GRAY)
 
-            tmp_gray = cv2.cvtColor(tmp, cv2.COLOR_BGR2GRAY)
-            tmp_count = cv2.countNonZero(tmp_gray)
+    cv2.drawContours(mask, contours, -1, (255, 255, 255), thickness=1)
 
-            if tmp_count != best_count:
-                break
+    brain2[mask != False] = (255, 255, 255)
 
-        best_image = tmp
-        best_mask = mask
-
-    mask = best_mask
-    img2[mask != False] = (255, 255, 255)
-
-    return img2, mask
+    return brain2, mask

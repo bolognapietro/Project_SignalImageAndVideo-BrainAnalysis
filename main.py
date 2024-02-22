@@ -2,9 +2,6 @@ import src.processing as processing
 import src.utils as utils
 import src.segmentation as segmentation
 
-import cv2
-import numpy as np
-
 if __name__ == "__main__":
 
     for image_index in range(23, 63):
@@ -18,13 +15,13 @@ if __name__ == "__main__":
         #utils.show_img(src=img1)
 
         # Remove skull
-        img2 = processing.remove_skull(src=img1)
+        brain, skull = processing.remove_skull(src=img1)
 
         # Find closer contour to the brain
-        img3, mask = processing.find_best_brain_contour(original_image=img1, brain=img2)
+        brain, mask = processing.find_best_brain_contour(src=brain)
 
         # Segmentation
-        images = segmentation.kmeans_segmentation(src=img3)
+        images = segmentation.kmeans_segmentation(src=brain)
 
         # Adjust each image by removing the contour of the skull (previously added)
         grid = [img]
@@ -38,4 +35,9 @@ if __name__ == "__main__":
 
             grid.append(image["colored"])
 
-        utils.show_img(grid)
+        # Merge everything
+        final_image = processing.merge_images(src1=img1, src2=images["complete"])
+
+        # Display the result
+        utils.show_img(final_image)
+

@@ -46,6 +46,7 @@
 <li><a class="reference internal" href="#">processing module</a><ul>
 <li><a class="reference internal" href="#processing.adjust_image"><code class="docutils literal notranslate"><span class="pre">adjust_image()</span></code></a></li>
 <li><a class="reference internal" href="#processing.find_best_brain_contour"><code class="docutils literal notranslate"><span class="pre">find_best_brain_contour()</span></code></a></li>
+<li><a class="reference internal" href="#processing.merge_images"><code class="docutils literal notranslate"><span class="pre">merge_images()</span></code></a></li>
 <li><a class="reference internal" href="#processing.remove_skull"><code class="docutils literal notranslate"><span class="pre">remove_skull()</span></code></a></li>
 </ul>
 </li>
@@ -113,6 +114,26 @@
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="processing.merge_images">
+<span class="sig-prename descclassname"><span class="pre">processing.</span></span><span class="sig-name descname"><span class="pre">merge_images</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">src1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">src2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#processing.merge_images" title="Permalink to this definition"></a></dt>
+<dd><p>Merges two images.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>src1</strong> – Image1.</p></li>
+<li><p><strong>src2</strong> – Image2.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Merged image.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
 </dd>
 </dl>
 </dd></dl>
