@@ -45,6 +45,7 @@
               <div class="local-toc"><ul>
 <li><a class="reference internal" href="#">processing module</a><ul>
 <li><a class="reference internal" href="#processing.adjust_image"><code class="docutils literal notranslate"><span class="pre">adjust_image()</span></code></a></li>
+<li><a class="reference internal" href="#processing.find_best_brain_contour"><code class="docutils literal notranslate"><span class="pre">find_best_brain_contour()</span></code></a></li>
 <li><a class="reference internal" href="#processing.remove_skull"><code class="docutils literal notranslate"><span class="pre">remove_skull()</span></code></a></li>
 </ul>
 </li>
@@ -100,6 +101,23 @@
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="processing.find_best_brain_contour">
+<span class="sig-prename descclassname"><span class="pre">processing.</span></span><span class="sig-name descname"><span class="pre">find_best_brain_contour</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">src</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span></span></span><a class="headerlink" href="#processing.find_best_brain_contour" title="Permalink to this definition"></a></dt>
+<dd><p>Find the best contour of the brain.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>src</strong> (<em>np.ndarray.</em>) – Brain image to be processed.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Processed image and mask of the contour.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="processing.remove_skull">
 <span class="sig-prename descclassname"><span class="pre">processing.</span></span><span class="sig-name descname"><span class="pre">remove_skull</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">src</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#processing.remove_skull" title="Permalink to this definition"></a></dt>
 <dd><p>Removes the skull from an MRI brain image.</p>
@@ -108,7 +126,7 @@
 <dd class="field-odd"><p><strong>src</strong> (<em>np.ndarray.</em>) – Image to be processed.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>processed image.</p>
+<dd class="field-even"><p>Processed image.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>np.ndarray</p>
