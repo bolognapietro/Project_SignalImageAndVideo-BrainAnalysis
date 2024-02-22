@@ -117,3 +117,46 @@ def remove_skull(src: np.ndarray) -> np.ndarray:
     brain[mask == False] = (0, 0, 0)
 
     return brain
+
+def find_best_brain_contour(original_image: np.ndarray, brain: np.ndarray) -> tuple:
+
+    img1 = original_image.copy()
+    img2 = brain.copy()
+
+    gray = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)
+    _, thresh = cv2.threshold(src=gray, thresh=0, maxval=255, type=cv2.THRESH_BINARY)
+    
+    best_image = None
+    best_mask = None
+
+    while True:
+
+        contours, _ = cv2.findContours(image=thresh, mode=cv2.RETR_EXTERNAL, method=cv2.CHAIN_APPROX_SIMPLE)
+
+        mask = np.zeros(img1.shape, dtype=np.uint8)
+        mask = cv2.cvtColor(mask, cv2.COLOR_BGR2GRAY)
+
+        cv2.drawContours(thresh, contours, -1, (0, 0, 0), thickness=1)
+        cv2.drawContours(mask, contours, -1, (255, 255, 255), thickness=1)
+
+        tmp = img2.copy()
+        tmp[mask != False] = (0, 0, 0)
+
+        if best_image is not None:
+
+            best_gray = cv2.cvtColor(best_image, cv2.COLOR_BGR2GRAY)
+            best_count = cv2.countNonZero(best_gray)
+
+            tmp_gray = cv2.cvtColor(tmp, cv2.COLOR_BGR2GRAY)
+            tmp_count = cv2.countNonZero(tmp_gray)
+
+            if tmp_count != best_count:
+                break
+
+        best_image = tmp
+        best_mask = mask
+
+    mask = best_mask
+    img2[mask != False] = (255, 255, 255)
+
+    return img2, mask
