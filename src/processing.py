@@ -113,6 +113,7 @@ def remove_skull(src: np.ndarray) -> np.ndarray:
     # Apply the mask to the original image
     mask = cv2.cvtColor(mask, cv2.COLOR_BGR2GRAY)
 
-    img[mask == False] = (0, 0, 0)
+    brain = img.copy()
+    brain[mask == False] = (0, 0, 0)
 
-    return img
+    return brain
