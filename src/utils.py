@@ -98,7 +98,7 @@ def show_img(src: Union[np.ndarray, list], winname: str = "Image", ncolumns: int
         src = np.vstack(tup=rows) 
 
     # Display the image(s)
-    cv2.imshow(winname=winname, mat=src)
+    cv2.imshow(winname=str(winname), mat=src)
     cv2.waitKey(delay=0)
     cv2.destroyAllWindows()
 
