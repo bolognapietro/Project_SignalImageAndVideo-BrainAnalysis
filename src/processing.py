@@ -80,7 +80,7 @@ def remove_skull(src: np.ndarray) -> np.ndarray:
     # Convert to grayscale
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
-    # Thresh the image
+    # Threshold the image using OTSU method. In this way it is possible to use the optimal threshold value based on the image content/histogram
     _, thresh = cv2.threshold(src=gray, thresh=0, maxval=255, type=cv2.THRESH_OTSU)
 
     # Create mask (all black for now)
