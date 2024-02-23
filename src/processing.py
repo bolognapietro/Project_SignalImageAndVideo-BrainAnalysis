@@ -65,10 +65,10 @@ def merge_images(src1: np.ndarray, src2: np.ndarray):
     Merges two images.
 
     :param src1: Image1.
-    :type src: np.ndarray.
+    :type src1: np.ndarray.
 
     :param src2: Image2.
-    :type src: np.ndarray.
+    :type src2: np.ndarray.
 
     :return: Merged image.
     :rtype: np.ndarray
