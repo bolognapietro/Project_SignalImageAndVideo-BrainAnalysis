@@ -25,17 +25,14 @@ def adjust_image(src: np.ndarray) -> np.ndarray:
     # Copy the image
     img = src.copy()
 
-    #? Convert to grayscale
-
+    # Convert to grayscale
     gray = cv2.cvtColor(src=img, code=cv2.COLOR_BGR2GRAY)
 
-    #? Denoise the image using split-Bregman optimization
-
+    # Denoise the image using split-Bregman optimization
     denoised = denoise_tv_bregman(gray, 4)
     denoised = img_as_ubyte(denoised)
 
-    #? Perform histogram equalization only on the brain
-
+    # Perform histogram equalization only on the brain
     equalized = cv2.equalizeHist(denoised)
     equalized = cv2.cvtColor(equalized, cv2.COLOR_GRAY2BGR)
 
