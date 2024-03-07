@@ -44,6 +44,7 @@
               <!-- Local TOC -->
               <div class="local-toc"><ul>
 <li><a class="reference internal" href="#">processing module</a><ul>
+<li><a class="reference internal" href="#processing.adjust_brain"><code class="docutils literal notranslate"><span class="pre">adjust_brain()</span></code></a></li>
 <li><a class="reference internal" href="#processing.adjust_image"><code class="docutils literal notranslate"><span class="pre">adjust_image()</span></code></a></li>
 <li><a class="reference internal" href="#processing.find_best_brain_contour"><code class="docutils literal notranslate"><span class="pre">find_best_brain_contour()</span></code></a></li>
 <li><a class="reference internal" href="#processing.merge_images"><code class="docutils literal notranslate"><span class="pre">merge_images()</span></code></a></li>
@@ -79,6 +80,27 @@
   <section id="module-processing">
 <span id="processing-module"></span><h1>processing module<a class="headerlink" href="#module-processing" title="Permalink to this heading"></a></h1>
 <p>Provides advanced functions for processing MRI brain images.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="processing.adjust_brain">
+<span class="sig-prename descclassname"><span class="pre">processing.</span></span><span class="sig-name descname"><span class="pre">adjust_brain</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">src1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">src2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">src3</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#processing.adjust_brain" title="Permalink to this definition"></a></dt>
+<dd><p>Adjust the brain image by adding the parts of the brain that may have been lost in previous processes</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>src1</strong> (<em>np.ndarray.</em>) – Original image.</p></li>
+<li><p><strong>src2</strong> (<em>np.ndarray.</em>) – Brain image.</p></li>
+<li><p><strong>src3</strong> (<em>np.ndarray.</em>) – Skull image.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Adjusted image of the brain.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py function">
 <dt class="sig sig-object py" id="processing.adjust_image">
 <span class="sig-prename descclassname"><span class="pre">processing.</span></span><span class="sig-name descname"><span class="pre">adjust_image</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">src</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#processing.adjust_image" title="Permalink to this definition"></a></dt>

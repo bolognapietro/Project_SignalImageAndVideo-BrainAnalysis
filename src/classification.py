@@ -9,17 +9,20 @@ The goal is to classify the provided regions (segments) in:
 
 import cv2
 
-def area_classification(images: dict) -> dict:
+def segments_classification(segments: list, color_segments: bool = True) -> dict:
     """
     Classifies each segment, regardless of the algorithm used.
     This method is based on the area, specifically the ratio of white pixels to black pixels in each segment. 
     This allows for the classification of each segment; the cerebrospinal fluid has the smallest amount of white pixels, 
     grey matter has a moderate amount, and white matter has the highest amount of white pixels.
 
-    :param images: Dictionary object resulting from segmentation algorithm.
-    :type images: dict
+    :param images: List of segments obtained from segmentation algorithm.
+    :type images: list
 
-    :return: A dictionary is provided, containing the segmented image where each segment is 
+    :param color_segments: Optional, color classified segments. Defaults to true.
+    :type color_segments: bool
+
+    :return: A dict is provided, containing the labelled images where each segment is 
         now classified. The possible classes are:
 
         - Grey matter.
@@ -31,28 +34,45 @@ def area_classification(images: dict) -> dict:
     # The order of these labels is based on the amount of pixels that each segment should have.
     # In fact, for example, the celebrospinal fluid segment should have the smaller amount of pixels.
     labels = ["Cerebrospinal fluid", "Grey matter", "White matter"]
+    colors = [(0, 0, 255), (0, 255, 0), (255, 0, 0)] # Colors in BGR format
 
-    for segment in images["segments"]:
+    segment_with_area = []
 
-        black_and_white = segment["black_and_white"]
+    for segment in segments:
 
         # Convert the segment image to gray scale
-        gray = cv2.cvtColor(src=black_and_white, code=cv2.COLOR_BGR2GRAY)
+        gray = cv2.cvtColor(src=segment, code=cv2.COLOR_BGR2GRAY)
 
         # Threshold the image
         _, thresh = cv2.threshold(src=gray, thresh=80, maxval=255, type=cv2.THRESH_BINARY)
 
         # Area will be used for classification
-        segment["area"] = cv2.countNonZero(src=thresh)
+        segment_with_area.append([segment, cv2.countNonZero(src=thresh)])
     
-    images["segments"].sort(key=lambda segment: segment["area"])
-    
-    for index, segment in enumerate(images["segments"]):
+    # Sort segment based on area
+    segment_with_area = sorted(segment_with_area, key=lambda segment: segment[1])
 
-        # Assign classification label
-        segment["label"] = labels[index]
+    classified_segments = []
 
-        # Remove temp key
-        del segment["area"]
-    
-    return images
+    for index, segment in enumerate(segment_with_area):
+
+        label = labels[index]
+        color = colors[index]
+        segment = segment[0].copy()
+
+        colored = None
+
+        # If color option is enabled, color the segment
+        if color_segments:
+            mask = cv2.inRange(segment, (255, 255, 255), (255, 255, 255))
+
+            colored = segment.copy()
+            colored[mask == 255] = color
+
+        classified_segments.append({
+            "label": label,
+            "segment": segment,
+            "colored": colored
+        })
+
+    return classified_segments

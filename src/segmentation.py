@@ -10,33 +10,38 @@ The goal is to extract three regions (segments) of interest:
 - Cerebrospinal fluid.
 - White matter.
 
-They can be later classified using the appropriate function inside the classify module.
+They can be later classified using the appropriate function inside the classification module.
 """
 
 import cv2
 import numpy as np
 
-import distinctipy
+import src.classification as classification
+import src.processing as processing
 
-def kmeans_segmentation(src: np.ndarray, k: int = 3) -> dict:
+def kmeans_segmentation(src1: np.ndarray, src2: np.ndarray, k: int = 3) -> dict:
     """
     Executes a 2D segmentation of an MRI brain image using K-means algorithm.
 
-    :param src: Image to be segmented.
-    :type src: np.ndarray
+    :param src1: Original image.
+    :type src1: np.ndarray
+
+    :param src2: Image to be segmented. It should be the brain.
+    :type src2: np.ndarray
 
     :param k: Optional, number of clusters used in K-means algorithm. Defaults to 3.
     :type k: int
 
     :return: A dictionary is provided, containing the segmented image where each segment is 
-        represented by a distinct color. Additionally, the dictionary includes all segments 
-        resulting from the segmentation process, presented both in color and in black and white.
+        represented by a distinct color (see classification module for more details). Additionally, the dictionary also includes
+        the merged image.
     :rtype: dict
     """
     
     # Copy the original image
-    img = src.copy()
-    
+    original_image = src1.copy()
+    img = src2.copy()
+
     #img = cv2.cvtColor(src=img, code=cv2.COLOR_BGR2GRAY)
 
     # Reshape the image to a single array of pixels
@@ -69,23 +74,10 @@ def kmeans_segmentation(src: np.ndarray, k: int = 3) -> dict:
     # Retrieve the k colors
     segment_colors = list(set(segmented_image.ravel().tolist()))
 
-    # The final resut will be a dict where:
-    # - completed will be the final image where each segmentation will have a different color
-    # - segments will be an array of all the extracted segments. Each of them will have a colored and black and white version
+    # Generate a first version of the segments
+    segments = []
 
-    images = {
-        "complete": None, 
-        "segments": []
-    }
-
-    # Generate k random distinct color
-    colors = []
-
-    for color in distinctipy.get_colors(n_colors=len(segment_colors)):
-        color = [int(channel*255) for channel in color]
-        colors.append(color)
-
-    for index, segment_color in enumerate(segment_colors):
+    for segment_color in segment_colors:
 
         segment_color = (segment_color, segment_color, segment_color)
 
@@ -98,33 +90,15 @@ def kmeans_segmentation(src: np.ndarray, k: int = 3) -> dict:
         # Apply the mask
         segment_image[mask <= 0] = [0,0,0]
 
-        # Generate a black and white version and a colored one
-        segment = {
-            "colored": None,
-            "black_and_white": None
-        }
+        segment = segment_image.copy()
+        segment[mask > 0] = (255,255,255)
+        segments.append(segment)
 
-        # Colored version
-        colored = segment_image.copy()
-        colored[mask > 0] = colors[index]
-        segment["colored"] = colored
-
-        # Black and white version
-        black_and_white = segment_image.copy()
-        black_and_white[mask > 0] = (255,255,255)
-        segment["black_and_white"] = black_and_white
-
-        images["segments"].append(segment)
-
-    # Fix the segments
+    # Adjust the segments
 
     # Convert the original image to gray scale
     gray = cv2.cvtColor(src=img, code=cv2.COLOR_BGR2GRAY)
 
-    # Find contours
-    # The background is inside the segment that also contains some colors of the brain associated to the same class
-    # For this reason, we first find the contour of the brain and then exclude the external part (background) from the internal one
-    
     contours, _ = cv2.findContours(image=gray, mode=cv2.RETR_EXTERNAL, method=cv2.CHAIN_APPROX_SIMPLE)
 
     # Create an empty mask with the same dimensions as the image
@@ -133,37 +107,25 @@ def kmeans_segmentation(src: np.ndarray, k: int = 3) -> dict:
     # Draw the contour on the mask
     cv2.drawContours(image=mask, contours=contours, contourIdx=-1, color=(255), thickness=cv2.FILLED)
 
-    final_image = None
     fixed_segments = []
 
-    for segment in images["segments"]:
+    for segment in segments:
 
-        colored = segment["colored"]
-        black_and_white = segment["black_and_white"]
+        # Apply the mask to keep the segmentation inside the brain
+        segment[mask == False] = (0, 0, 0)
 
-        # Use the mask to keep only the region inside the contour in the original imageù
-        colored = cv2.bitwise_and(src1=colored, src2=colored, mask=mask)
-        black_and_white = cv2.bitwise_and(src1=black_and_white, src2=black_and_white, mask=mask)
+        fixed_segments.append(segment)
 
-        fixed_segments.append({
-            "colored": colored,
-            "black_and_white": black_and_white
-        })
+    # Classify segments:
+    classified_segments = classification.segments_classification(segments=segments)
 
-        # Add the highlighted area to the final image
-        if final_image is None:
-            final_image = colored
-        
-        else:
-            # Keep the colored pixel of final_image if final_image is different from 0 and colored not
-            # Keep the colored pixel of colored if colored is different from 0 and final_image not
-            # Keep the colored pixel of final_image if both final_image and colored are different from 0
-            mask1 = final_image > 0
-            mask2 = colored > 0
+    merged_image = np.zeros_like(img)
 
-            final_image = np.where(mask1, final_image, np.where(mask2, colored, 0))
-    
-    images["complete"] = final_image
-    images["segments"] = fixed_segments
+    for segment in classified_segments:
+        merged_image = processing.merge_images(src1=merged_image, src2=segment["colored"])
 
-    return images
+    return {
+        "merged_no_skull": merged_image,
+        "merged_skull": processing.merge_images(src1=original_image, src2=merged_image),
+        "segments": classified_segments
+    }

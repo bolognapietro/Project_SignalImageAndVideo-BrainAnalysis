@@ -1,21 +1,24 @@
+"""
+Provides functions for 3D plotting.
+"""
+
 import os
 import numpy as np
 import cv2 as cv
 import plotly.graph_objects as go
 import src.utils as utils
 
-
 def convert_to_png(src: np.ndarray) -> np.ndarray:
     """
     Converts an image to PNG format with an alpha channel.
 
-    Parameters:
-    - src (ndarray): The input image.
+    :param src: Input image.
+    :type src: np.ndarray
 
-    Returns:
-    - ndarray: The converted image in PNG format with an alpha channel.
-
+    :return: Converted image in PNG format with an alpha channel.
+    :rtype: np.ndarray
     """
+
     # Calculate the sum of the image along the last axis to obtain a binary mask where non-zero values indicate the presence of pixels.
     alpha = np.sum(src, axis=-1) > 0
     
@@ -31,14 +34,17 @@ def interpolate(p_from: np.ndarray, p_to: np.ndarray, num: int) -> np.ndarray:
     """
     Interpolates between two points in 3D space.
 
-    Parameters:
-    - p_from (ndarray): The starting point in 3D space.
-    - p_to (ndarray): The ending point in 3D space.
-    - num (int): The number of points to interpolate between p_from and p_to.
+    :param p_from: Starting point in 3D space.
+    :type p_from: np.ndarray
 
-    Returns:
-    - ndarray: An array of interpolated points between p_from and p_to.
+    :param p_to: Ending point in 3D space.
+    :type p_to: np.ndarray
 
+    :param num: Number of points to interpolate between p_from and p_to.
+    :type num: int
+
+    :return: An array of interpolated points between p_from and p_to.
+    :rtype: np.ndarray
     """
 
     # Calculate the direction vector
@@ -53,21 +59,30 @@ def interpolate(p_from: np.ndarray, p_to: np.ndarray, num: int) -> np.ndarray:
     return np.array(ret_vec)
 
 
-def plotImage(ply: go.Figure, img: np.ndarray, z_index: float, size: np.ndarray = np.array((1, 1)), img_scale: int = 2, color: bool = False):
+def plotImage(ply: go.Figure, img: np.ndarray, z_index: float, size: np.ndarray = np.array((1, 1)), img_scale: int = 2, color: bool = False) -> None:
     """
     Plot an image on a 3D plot.
 
-    Parameters:
-    - ply (plotly.graph_objects.Figure): The plotly figure object to add the image to.
-    - img (ndarray): The image to plot.
-    - index (float): The z-index of the image.
-    - size (ndarray, optional): The size of the image in the plot. Defaults to np.array((1, 1)).
-    - img_scale (int, optional): The scale factor to resize the image. Defaults to 2.
-    - color (bool, optional): Whether to plot the image in color. Defaults to False.
+    :param ply: Plotly figure object to add the image to.
+    :type ply: plotly.graph_objects.Figure
 
-    Returns:
-    - None
+    :param img: Image to plot.
+    :type img: np.ndarray
 
+    :param index: Z-index of the image.
+    :type index: float
+
+    :param size: Optional, size of the image in the plot. Defaults to np.array((1, 1)).
+    :type size: np.ndarray
+
+    :param img_scale: Optional, scale factor to resize the image. Defaults to 2.
+    :type img_scale: int
+
+    :param color: Optional, whether to plot the image in color. Defaults to False.
+    :type color: bool
+
+    :return: None
+    :rtype: None
     """
 
     # Calculate the new size of the image and resize it
@@ -157,18 +172,22 @@ def create_3d_image(src: str, dst: str, color: bool = False):
     """
     Create a 3D image plot using a series of images.
 
-    Parameters:
-    - src (str): The directory path containing the input images.
-    - dst (str): The name of the output HTML file.
-    - color (bool, optional): Whether to plot the image in color. Defaults to False.
+    :param src: Directory path containing the input images.
+    :type src: str
 
-    Returns:
-    - None
+    :param dst: Name of the output HTML file.
+    :type dst: str
 
+    :param color: Optional, whether to plot the image in color. Defaults to False.
+    :type color: bool
+
+    :return: None
+    :rtype: None
     """
+
     ply = go.Figure()
 
-    # Lista dei file ordinati in ordine decrescente
+    # List of files sorted in descending order.
     files = sorted(os.listdir(src), key=lambda x: int(x.split('.')[0]), reverse=True)
 
     z_index=0
@@ -182,9 +201,9 @@ def create_3d_image(src: str, dst: str, color: bool = False):
 
     ply.update_layout(
         scene=dict(
-            xaxis=dict(range=[0, 1.5]),  # Imposta i limiti dell'asse x
-            yaxis=dict(range=[0, 1.3]),  # Imposta i limiti dell'asse y
-            zaxis=dict(range=[0, 15]),  # Imposta i limiti dell'asse z
+            xaxis=dict(range=[0, 1.5]),  # Set the limits of the x-axis.
+            yaxis=dict(range=[0, 1.3]),  # Set the limits of the y-axis.
+            zaxis=dict(range=[0, 15]),  # Set the limits of the z-axis.
         )
     )
 

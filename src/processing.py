@@ -128,7 +128,7 @@ def remove_skull(src: np.ndarray) -> np.ndarray:
         if marker == 1:
             continue
 
-        if area < 4500:
+        if area < 4000:
             continue
 
         mask[markers == marker] = (255, 255, 255)
@@ -198,5 +198,110 @@ def find_best_brain_contour(src: np.ndarray) -> tuple:
     cv2.drawContours(mask, contours, -1, (255, 255, 255), thickness=1)
 
     brain2[mask != False] = (255, 255, 255)
-
+    
     return brain2, mask
+
+def adjust_brain(src1: np.ndarray, src2: np.ndarray, src3: np.ndarray) -> np.ndarray:
+    """
+    Adjust the brain image by adding the parts of the brain that may have been lost in previous processes
+
+    :param src1: Original image.
+    :type src1: np.ndarray.
+
+    :param src2: Brain image.
+    :type src2: np.ndarray.
+
+    :param src3: Skull image.
+    :type src3: np.ndarray.
+
+    :return: Adjusted image of the brain.
+    :rtype: np.ndarray
+    """
+
+    original_image = src1.copy()
+    brain = src2.copy()
+    skull = src3.copy()
+
+    # Extract internal area of the skull (based on hierarchy)
+    gray = cv2.cvtColor(src=skull, code=cv2.COLOR_BGR2GRAY)
+    _, thresh = cv2.threshold(src=gray, thresh=50, maxval=255, type=cv2.THRESH_BINARY)
+
+    contours, hierarchy = cv2.findContours(image=thresh, mode=cv2.RETR_TREE, method=cv2.CHAIN_APPROX_SIMPLE)
+
+    internal_layers_index = max(hierarchy[0], key=lambda layer: layer[3])[3]
+
+    while True:
+
+        internal_layers = [[cv2.contourArea(contour), contour] for index, contour in enumerate(contours) if hierarchy[0][index][3] == internal_layers_index]
+        internal_layers = [layer[1] for layer in internal_layers if layer[0] >= 1000]
+
+        if len(internal_layers):
+            break
+
+        internal_layers_index = internal_layers_index - 1
+
+    mask = np.zeros_like(skull)
+    mask = cv2.cvtColor(src=mask, code=cv2.COLOR_BGR2GRAY)
+
+    cv2.drawContours(mask, internal_layers, -1, (255, 255, 255), thickness=cv2.FILLED)
+
+    internal_skull = original_image.copy()
+    internal_skull[mask == False] = (0, 0, 0)
+
+    mask = cv2.cvtColor(src=skull, code=cv2.COLOR_BGR2GRAY)
+    internal_skull[mask != False] = (0, 0, 0)
+
+    # Retrieve contours of what is inside the skull
+    gray = cv2.cvtColor(src=internal_skull, code=cv2.COLOR_BGR2GRAY)
+    _, thresh = cv2.threshold(src=gray, thresh=90, maxval=255, type=cv2.THRESH_BINARY)
+    internal_skull_contours, _ = cv2.findContours(image=thresh, mode=cv2.RETR_LIST, method=cv2.CHAIN_APPROX_SIMPLE)
+
+    # Find best brain contour (first)
+    brain_bak, mask_bak = find_best_brain_contour(src=brain)
+
+    # Extract contour from mask
+    brain_contour, _ = cv2.findContours(image=mask_bak, mode=cv2.RETR_EXTERNAL, method=cv2.CHAIN_APPROX_SIMPLE)
+
+    # Check common contours
+    common_contours = []
+
+    for contour in internal_skull_contours:
+        ratio = 0
+
+        # Verify if the contour of an object inside the skull intersects the contour of the brain
+        for point in contour:
+            x, y = tuple(point[0])
+
+            common = cv2.pointPolygonTest(brain_contour[0], (int(x), int(y)), measureDist=False) >= 0
+
+            if common:
+                ratio = ratio + 1
+
+        # Calculate the ratio: amount of pixels that intersect the contour of the brain
+        ratio = ratio / len(contour) * 100
+
+        # Keep the contour based on a threshold
+        if ratio >= 10:
+            common_contours.append(contour)
+
+    # If there are other objects to be included inside the brain, add them
+    if len(common_contours):
+        mask = np.zeros_like(brain)
+        mask = cv2.cvtColor(src=mask, code=cv2.COLOR_BGR2GRAY)
+        cv2.drawContours(mask, common_contours, -1, (255, 255, 255), cv2.FILLED)
+
+        brain = original_image.copy()
+        brain[mask == False] = (0, 0, 0)
+
+        brain, mask = find_best_brain_contour(src=brain)
+    else:
+        brain, mask = brain_bak, mask_bak
+    
+    # Use the final contour to extract the region from the original image
+    brain_contour, _ = cv2.findContours(image=mask, mode=cv2.RETR_EXTERNAL, method=cv2.CHAIN_APPROX_SIMPLE)
+    cv2.drawContours(mask, brain_contour, -1, (255, 255, 255), cv2.FILLED)
+
+    brain = original_image.copy()
+    brain[mask == False] = (0, 0, 0)
+
+    return brain

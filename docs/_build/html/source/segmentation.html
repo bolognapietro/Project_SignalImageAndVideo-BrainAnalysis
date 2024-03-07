@@ -86,22 +86,23 @@ It can be tested with different algorithms:</p>
 <li><p>Cerebrospinal fluid.</p></li>
 <li><p>White matter.</p></li>
 </ul>
-<p>They can be later classified using the appropriate function inside the classify module.</p>
+<p>They can be later classified using the appropriate function inside the classification module.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="segmentation.kmeans_segmentation">
-<span class="sig-prename descclassname"><span class="pre">segmentation.</span></span><span class="sig-name descname"><span class="pre">kmeans_segmentation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">src</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#segmentation.kmeans_segmentation" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">segmentation.</span></span><span class="sig-name descname"><span class="pre">kmeans_segmentation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">src1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">src2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#segmentation.kmeans_segmentation" title="Permalink to this definition"></a></dt>
 <dd><p>Executes a 2D segmentation of an MRI brain image using K-means algorithm.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>src</strong> (<em>np.ndarray</em>) – Image to be segmented.</p></li>
+<li><p><strong>src1</strong> (<em>np.ndarray</em>) – Original image.</p></li>
+<li><p><strong>src2</strong> (<em>np.ndarray</em>) – Image to be segmented. It should be the brain.</p></li>
 <li><p><strong>k</strong> (<em>int</em>) – Optional, number of clusters used in K-means algorithm. Defaults to 3.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>A dictionary is provided, containing the segmented image where each segment is
-represented by a distinct color. Additionally, the dictionary includes all segments
-resulting from the segmentation process, presented both in color and in black and white.</p>
+represented by a distinct color (see classification module for more details). Additionally, the dictionary also includes
+the merged image.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>dict</p>
