@@ -60,7 +60,7 @@ def adjust_image(src: np.ndarray) -> np.ndarray:
 
     return merged
 
-def merge_images(src1: np.ndarray, src2: np.ndarray):
+def merge_images(src1: np.ndarray, src2: np.ndarray) -> np.ndarray:
     """
     Merges two images.
 

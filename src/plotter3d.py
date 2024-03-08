@@ -168,7 +168,7 @@ def plotImage(ply: go.Figure, img: np.ndarray, z_index: float, size: np.ndarray 
 
     return None
 
-def create_3d_image(src: str, dst: str, color: bool = False):
+def create_3d_image(src: str, dst: str, color: bool = False) -> None:
     """
     Create a 3D image plot using a series of images.
 
