@@ -9,6 +9,13 @@ The goal is to classify the provided regions (segments) in:
 
 import cv2
 
+from enum import Enum
+
+class LABELS(Enum):
+    CEREBROSPINAL_FLUID = "Cerebrospinal fluid"
+    GREY_MATTER = "GREY_MATTER"
+    WHITE_MATTER = "WHITE_MATTER"
+
 def segments_classification(segments: list, color_segments: bool = True) -> dict:
     """
     Classifies each segment, regardless of the algorithm used.
@@ -33,7 +40,7 @@ def segments_classification(segments: list, color_segments: bool = True) -> dict
 
     # The order of these labels is based on the amount of pixels that each segment should have.
     # In fact, for example, the celebrospinal fluid segment should have the smaller amount of pixels.
-    labels = ["Cerebrospinal fluid", "Grey matter", "White matter"]
+    labels = [LABELS.CEREBROSPINAL_FLUID, LABELS.GREY_MATTER, LABELS.WHITE_MATTER]
     colors = [(0, 0, 255), (0, 255, 0), (255, 0, 0)] # Colors in BGR format
 
     segment_with_area = []
@@ -71,6 +78,7 @@ def segments_classification(segments: list, color_segments: bool = True) -> dict
 
         classified_segments.append({
             "label": label,
+            "color": color,
             "segment": segment,
             "colored": colored
         })

@@ -105,7 +105,7 @@ def kmeans_segmentation(src1: np.ndarray, src2: np.ndarray, k: int = 3) -> dict:
     mask = np.zeros_like(a=gray)
 
     # Draw the contour on the mask
-    cv2.drawContours(image=mask, contours=contours, contourIdx=-1, color=(255), thickness=cv2.FILLED)
+    cv2.drawContours(image=mask, contours=contours, contourIdx=-1, color=(255, 255, 255), thickness=cv2.FILLED)
 
     fixed_segments = []
 
@@ -119,10 +119,28 @@ def kmeans_segmentation(src1: np.ndarray, src2: np.ndarray, k: int = 3) -> dict:
     # Classify segments:
     classified_segments = classification.segments_classification(segments=segments)
 
+    # Create merged image
     merged_image = np.zeros_like(img)
 
     for segment in classified_segments:
         merged_image = processing.merge_images(src1=merged_image, src2=segment["colored"])
+
+    # Adjust the cerebrospinal fluid
+    for segment in classified_segments:
+
+        if segment["label"] != classification.LABELS.CEREBROSPINAL_FLUID:
+            continue
+        
+        gray = cv2.cvtColor(src=merged_image, code=cv2.COLOR_BGR2GRAY)
+        contours, _ = cv2.findContours(image=gray, mode=cv2.RETR_EXTERNAL, method=cv2.CHAIN_APPROX_SIMPLE)
+
+        cv2.drawContours(image=segment["colored"], contours=contours, contourIdx=-1, color=segment["color"], thickness=2)
+        cv2.drawContours(image=segment["segment"], contours=contours, contourIdx=-1, color=(255, 255, 255), thickness=2)
+
+        break
+
+    # Adjust merged image
+    merged_image = processing.merge_images(src1=merged_image, src2=[segment["colored"] for segment in classified_segments if segment["label"] == classification.LABELS.CEREBROSPINAL_FLUID][0])
 
     return {
         "merged_no_skull": merged_image,
