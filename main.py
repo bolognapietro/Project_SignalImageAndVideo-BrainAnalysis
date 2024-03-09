@@ -20,9 +20,9 @@ if __name__ == "__main__":
 
         # Segmentation
         images = segmentation.kmeans_segmentation(src1=img1, src2=brain)
-        
+
         # Display images
         preview = [img1, images["merged_skull"]]
         preview.extend([segment["colored"] for segment in images["segments"]])
 
-        utils.show_img(preview, image_index)
+        utils.show_img(preview, image_index) # 50

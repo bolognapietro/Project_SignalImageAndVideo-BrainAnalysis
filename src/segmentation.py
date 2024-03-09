@@ -42,8 +42,6 @@ def kmeans_segmentation(src1: np.ndarray, src2: np.ndarray, k: int = 3) -> dict:
     original_image = src1.copy()
     img = src2.copy()
 
-    #img = cv2.cvtColor(src=img, code=cv2.COLOR_BGR2GRAY)
-
     # Reshape the image to a single array of pixels
     pixels = img.reshape((-1, 3))
 
@@ -131,6 +129,12 @@ def kmeans_segmentation(src1: np.ndarray, src2: np.ndarray, k: int = 3) -> dict:
         if segment["label"] != classification.LABELS.CEREBROSPINAL_FLUID:
             continue
         
+        # Debug
+        #gray = cv2.cvtColor(src=segment["colored"], code=cv2.COLOR_BGR2GRAY)
+        #contours, _ = cv2.findContours(image=gray, mode=cv2.RETR_LIST, method=cv2.CHAIN_APPROX_SIMPLE)
+        #contours = [contour for contour in contours if cv2.contourArea(contour) >= 700]
+        #cv2.drawContours(image=segment["colored"], contours=contours, contourIdx=-1, color=(255, 255, 255), thickness=2)
+
         gray = cv2.cvtColor(src=merged_image, code=cv2.COLOR_BGR2GRAY)
         contours, _ = cv2.findContours(image=gray, mode=cv2.RETR_EXTERNAL, method=cv2.CHAIN_APPROX_SIMPLE)
 
@@ -141,6 +145,8 @@ def kmeans_segmentation(src1: np.ndarray, src2: np.ndarray, k: int = 3) -> dict:
 
     # Adjust merged image
     merged_image = processing.merge_images(src1=merged_image, src2=[segment["colored"] for segment in classified_segments if segment["label"] == classification.LABELS.CEREBROSPINAL_FLUID][0])
+
+    #TODO Adjust internal parts of the brain
 
     return {
         "merged_no_skull": merged_image,
