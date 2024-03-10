@@ -15,21 +15,11 @@ The goal of this project is to develop an algorithm capable of performing the se
 
 #### Expected results
 
-<p float="left" align="center">
-    <img width="24%" src="assets/demo/brain.png"/>
-    <img width="24%" src="assets/demo/white-matter.png"/>
-    <img width="24%" src="assets/demo/grey-matter.png"/>
-    <img width="24%" src="assets/demo/cerebrospinal-fluid.png"/>
-</p>
+<img src="assets/demo/expected-results.png"/>
 
 #### Obtained results
 
-<p float="left" align="center">
-    <img width="24%" src="assets/demo/brain.png"/>
-    <img width="24%" src="assets/demo/white-matter-ext.png"/>
-    <img width="24%" src="assets/demo/grey-matter-ext.png"/>
-    <img width="24%" src="assets/demo/cerebrospinal-fluid-ext.png"/>
-</p>
+<img src="assets/demo/obtained-results.png"/>
 
 #### 3D Segmentation
 
