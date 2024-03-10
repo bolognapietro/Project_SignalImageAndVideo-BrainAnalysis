@@ -33,8 +33,6 @@ The goal of this project is to develop an algorithm capable of performing the se
 
 Aside from the segmentation aspect, the algorithm employed in this project is designed to generalize well even when applied to images not included in the dataset. However, its flexibility is somewhat limited compared to algorithms that utilize more advanced techniques, such as machine learning algorithms. Nonetheless, it can closely resemble real medical segmentations.
 
-Finally, the current implementation in `main.py` focuses on a specific range of axial brain images. This excludes the uppermost and bottommost slices due to two challenges. Firstly, these end sections often contain very small portions of the brain, which are less informative for segmentation purposes. Secondly, these areas can be more complex and may require advanced image processing techniques beyond the scope of this project.
-
 # Code overview
 
 This project enables the processing of MRI brain images in various ways, all with the ultimate goal of segmentation. In theory, each brain image should undergo the following process. However, it's worth noting that this sequence is not strictly mandatory. Depending on the characteristics of certain images, some steps may be omitted:
@@ -73,7 +71,10 @@ This project enables the processing of MRI brain images in various ways, all wit
 
 5. **3D plot**: 
 
-The proposed functions are all publicly accessible. The other functions should be considered private, as they are only support functions used internally. The full documentation can be found [here](https://christiansassi.github.io/signal-image-and-video-project/).
+The proposed functions are all publicly accessible. The other functions should be considered private, as they are only support functions used internally. 
+
+> [!NOTE]
+> The full documentation can be found [here](https://christiansassi.github.io/signal-image-and-video-project/).
 
 # Getting started
 
@@ -95,6 +96,9 @@ The proposed functions are all publicly accessible. The other functions should b
    ```
    python3 main.py
    ```
+
+> [!WARNING]
+> The current implementation in `main.py` focuses on a specific range of axial brain images. This excludes the uppermost and bottommost slices due to two challenges. Firstly, these end sections often contain very small portions of the brain, which are less informative for segmentation purposes. Secondly, these areas can be more complex and may require advanced image processing techniques beyond the scope of this project.
 
 # Contacts
 
