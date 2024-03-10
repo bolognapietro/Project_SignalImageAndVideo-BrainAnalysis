@@ -53,7 +53,7 @@ Finally, the current implementation in `main.py` focuses on a specific range of 
 
 This project enables the processing of MRI brain images in various ways, all with the ultimate goal of segmentation. In theory, each brain image should undergo the following process. However, it's worth noting that this sequence is not strictly mandatory. Depending on the characteristics of certain images, some steps may be omitted:
 
-1. **Image adjustment**: in this phase, the initial brain image undergoes adjustment, including denoising, histogram equalization, and setting the background to black. This phase is particularly important for segmentation, as it helps to equalize the image colors**.**
+1. **Image adjustment**: in this phase, the initial brain image undergoes adjustment, including denoising, histogram equalization, and setting the background to black. This phase is particularly important for segmentation, as it helps to equalize the image colors.
 
    ```python
    # Pre-process the image
