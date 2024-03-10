@@ -199,6 +199,11 @@ def find_best_brain_contour(src: np.ndarray) -> tuple:
 
     brain2[mask != False] = (255, 255, 255)
     
+    # If the image has no skull, the brain will be all black
+    # Check this and in that case swap the two images so the skull will be all black
+    if not (brain2 > 0).any():
+        brain2, mask = mask, brain2
+
     return brain2, mask
 
 def adjust_brain(src1: np.ndarray, src2: np.ndarray, src3: np.ndarray) -> np.ndarray:

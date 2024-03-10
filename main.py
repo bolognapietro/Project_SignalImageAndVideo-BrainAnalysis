@@ -9,20 +9,20 @@ if __name__ == "__main__":
         # Load and display the input image
         img = utils.load_img(filename=f"img/MRI/Axial/{image_index}.png")
 
-        # Pre-process image
-        img1 = processing.adjust_image(src=img)
+        # Pre-process the image
+        adjusted_image = processing.adjust_image(src=img)
 
-        # Remove skull and obtain brain image
-        brain, skull = processing.remove_skull(src=img1)
+        # Remove skull and obtain the brain and skull images
+        brain, skull = processing.remove_skull(src=adjusted_image)
 
-        # Adjust brain
-        brain = processing.adjust_brain(src1=img1, src2=brain, src3=skull)
+        # Adjust the brain
+        brain = processing.adjust_brain(src1=adjusted_image, src2=brain, src3=skull)
 
-        # Segmentation
-        images = segmentation.kmeans_segmentation(src1=img1, src2=brain)
+        # Perform segmentation using K-means
+        images = segmentation.kmeans_segmentation(src1=adjusted_image, src2=brain)
 
         # Display images
-        preview = [img1, images["merged_skull"]]
+        preview = [adjusted_image, images["merged_skull"]]
         preview.extend([segment["colored"] for segment in images["segments"]])
 
-        utils.show_img(preview, image_index) # 50
+        utils.show_img(preview, image_index)
