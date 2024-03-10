@@ -22,8 +22,6 @@ The goal of this project is to develop an algorithm capable of performing the se
     <img width="24%" src="assets/demo/cerebrospinal-fluid.png"/>
 </p>
 
-​                             Brain                                               White Matter                                          Grey Matter                                    Cerebrospinal Fluid
-
 #### Obtained results
 
 <p float="left" align="center">
@@ -32,8 +30,6 @@ The goal of this project is to develop an algorithm capable of performing the se
     <img width="24%" src="assets/demo/grey-matter-ext.png"/>
     <img width="24%" src="assets/demo/cerebrospinal-fluid-ext.png"/>
 </p>
-
-​                             Brain                                               White Matter                                          Grey Matter                                    Cerebrospinal Fluid
 
 #### 3D Segmentation
 
