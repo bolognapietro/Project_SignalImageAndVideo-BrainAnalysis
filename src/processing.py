@@ -25,6 +25,24 @@ def adjust_image(src: np.ndarray) -> np.ndarray:
     # Copy the image
     img = src.copy()
 
+    # Resize the imag to allow the script to work better
+    # These are the dimensions of the images in the dataset. Keep them as references
+    ref_width = 480
+    ref_height = 635
+
+    height, width, _ = img.shape
+    aspect_ratio = width / height
+
+    if abs(ref_height - height) < abs(ref_width - width):
+        width = ref_width
+        height = int(ref_width / aspect_ratio)
+
+    else:
+        height = ref_height
+        width = int(ref_height * aspect_ratio)
+    
+    img = cv2.resize(img, (width, height), interpolation=cv2.INTER_CUBIC)
+
     # Convert to grayscale
     gray = cv2.cvtColor(src=img, code=cv2.COLOR_BGR2GRAY)
 
@@ -146,6 +164,11 @@ def remove_skull(src: np.ndarray) -> np.ndarray:
     skull = img.copy()
     skull[mask == False] = (0, 0, 0)
 
+    # If the image has no skull, the brain will be all black
+    # Check this and in that case return the original image and the skull (all black)
+    if not (brain > 0).any():
+        brain, skull = img, brain
+
     return brain, skull
 
 def find_best_brain_contour(src: np.ndarray) -> tuple:
@@ -198,11 +221,6 @@ def find_best_brain_contour(src: np.ndarray) -> tuple:
     cv2.drawContours(mask, contours, -1, (255, 255, 255), thickness=1)
 
     brain2[mask != False] = (255, 255, 255)
-    
-    # If the image has no skull, the brain will be all black
-    # Check this and in that case swap the two images so the skull will be all black
-    if not (brain2 > 0).any():
-        brain2, mask = mask, brain2
 
     return brain2, mask
 
@@ -226,6 +244,10 @@ def adjust_brain(src1: np.ndarray, src2: np.ndarray, src3: np.ndarray) -> np.nda
     original_image = src1.copy()
     brain = src2.copy()
     skull = src3.copy()
+
+    # If the skull is all black, I assume the original image has not the skull
+    if not (skull > 0).any():
+        return brain
 
     # Extract internal area of the skull (based on hierarchy)
     gray = cv2.cvtColor(src=skull, code=cv2.COLOR_BGR2GRAY)

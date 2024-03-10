@@ -3,7 +3,7 @@ import src.utils as utils
 import src.segmentation as segmentation
 
 if __name__ == "__main__":
-
+    
     for image_index in range(23, 63):
 
         # Load and display the input image
