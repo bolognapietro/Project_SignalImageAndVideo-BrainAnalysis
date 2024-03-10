@@ -19,7 +19,7 @@ class LABELS(Enum):
 def segments_classification(segments: list, color_segments: bool = True) -> dict:
     """
     Classifies each segment, regardless of the algorithm used.
-    This method is based on the area, specifically the ratio of white pixels to black pixels in each segment. 
+    This method is based on the area, specifically the ratio of colored pixels to black pixels in each segment. 
     This allows for the classification of each segment; the cerebrospinal fluid has the smallest amount of white pixels, 
     grey matter has a moderate amount, and white matter has the highest amount of white pixels.
 

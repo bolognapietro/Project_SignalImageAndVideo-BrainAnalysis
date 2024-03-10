@@ -7,7 +7,7 @@ if __name__ == "__main__":
     for image_index in range(23, 63):
 
         # Load and display the input image
-        img = utils.load_img(filename=f"img/MRI/Axial/{image_index}.png")
+        img = utils.load_img(filename=f"dataset/MRI/Axial/{image_index}.png")
 
         # Pre-process the image
         adjusted_image = processing.adjust_image(src=img)
