@@ -16,10 +16,10 @@ if __name__ == "__main__":
         brain, skull = processing.remove_skull(src=adjusted_image)
 
         # Adjust the brain
-        brain = processing.adjust_brain(src1=adjusted_image, src2=brain, src3=skull)
+        adjusted_brain = processing.adjust_brain(src1=adjusted_image, src2=brain, src3=skull)
 
         # Perform segmentation using K-means
-        images = segmentation.kmeans_segmentation(src1=adjusted_image, src2=brain)
+        images = segmentation.kmeans_segmentation(src1=adjusted_image, src2=adjusted_brain)
 
         # Display images
         preview = [adjusted_image, images["merged_skull"]]
