@@ -45,8 +45,7 @@ This project enables the processing of MRI brain images in various ways, all wit
     ```
 
     <p float="left" align="center">
-        <img width="24%" src="assets/code_overview/original_image.png"/>
-        <img width="24%" src="assets/code_overview/adjusted_image.png"/>
+        <img width="50%" src="assets/code_overview/original_and_adjusted.png"/>
     </p>
 
 2. **Skull removal**: In this phase, if present, the skull is removed, as segmentation focuses solely on the brain. This is achieved by analyzing each area of the images and retaining the larger ones (above a certain threshold), excluding the largest one, which theoretically corresponds to the skull.
@@ -57,8 +56,7 @@ This project enables the processing of MRI brain images in various ways, all wit
     ```
 
     <p float="left" align="center">
-        <img width="24%" src="assets/code_overview/brain.png"/>
-        <img width="24%" src="assets/code_overview/skull.png"/>
+        <img width="50%" src="assets/code_overview/brain_and_skull.png"/>
     </p>
 
 3. **Brain adjustment**: in this phase, all objects remaining in the image are examined to determine if they could be part of the brain. The analysis involves subtracting both the skull and the brain from the original image. Any objects intersecting (partially or completely) with the brain are considered as potential components of it.
@@ -69,7 +67,7 @@ This project enables the processing of MRI brain images in various ways, all wit
     ```
 
     <p float="left" align="center">
-        <img width="24%" src="assets/code_overview/adjusted_brain.png"/>
+        <img width="25%" src="assets/code_overview/adjusted_brain1.png"/>
     </p>
     
 4. **Segmentation and Classification**: In this phase, the final image undergoes segmentation using the K-means algorithm. Subsequently, a very basic classification approach is employed: each segment's area (colored pixels over black pixels) is utilized to differentiate regions. Typically, the analyzed segments exhibit a relatively consistent number of colored pixels, facilitating classification. This classification process organizes segments based on size, beginning with the smallest:
@@ -84,10 +82,7 @@ This project enables the processing of MRI brain images in various ways, all wit
     ```
 
     <p float="left" align="center">
-        <img width="19%" src="assets/code_overview/merged_skull.png"/>
-        <img width="19%" src="assets/code_overview/white_matter.png"/>
-        <img width="19%" src="assets/code_overview/grey_matter.png"/>
-        <img width="19%" src="assets/code_overview/cerebrospinal_fluid.png"/>
+        <img width="100%" src="assets/code_overview/segmentation_and_classification.png"/>
     </p>
 
 5. **3D plot**: (todo)
