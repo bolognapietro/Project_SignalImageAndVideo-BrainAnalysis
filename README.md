@@ -69,6 +69,7 @@ This project enables the processing of MRI brain images in various ways, all wit
     ```
 
     <p float="left" align="center">
+        <img width="25%" src="assets/code_overview/brain.png"/>
         <img width="25%" src="assets/code_overview/adjusted_brain.png"/>
     </p>
     
