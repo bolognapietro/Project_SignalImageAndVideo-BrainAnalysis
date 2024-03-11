@@ -70,7 +70,7 @@ This project enables the processing of MRI brain images in various ways, all wit
 
     <p float="left" align="center">
         <img width="25%" src="assets/code_overview/brain.png"/>
-        <img width="25%" src="assets/code_overview/adjusted_brain.png"/>
+        <img width="25%" src="assets/code_overview/adjusted_brain_fix.png"/>
     </p>
     
 4. **Segmentation and Classification**: In this phase, the final image undergoes segmentation using the K-means algorithm. Subsequently, a very basic classification approach is employed: each segment's area (colored pixels over black pixels) is utilized to differentiate regions. Typically, the analyzed segments exhibit a relatively consistent number of colored pixels, facilitating classification. This classification process organizes segments based on size, beginning with the smallest:
