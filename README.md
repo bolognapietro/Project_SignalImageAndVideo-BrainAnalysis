@@ -95,10 +95,9 @@ This project enables the processing of MRI brain images in various ways, all wit
         <img width="32%" src="assets/3d/s5.jpg"/>
         <img width="32%" src="assets/3d/s4.jpg"/>
     </p>
-    
-The proposed functions are all publicly accessible. The other functions should be considered private, as they are only support functions used internally.
 
 > [!NOTE]
+> The proposed functions are all publicly accessible. The other functions should be considered private, as they are only support functions used internally.
 > The full documentation can be found [here](https://christiansassi.github.io/signal-image-and-video-project/).
 
 # Getting started
