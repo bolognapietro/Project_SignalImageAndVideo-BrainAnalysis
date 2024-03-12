@@ -1,6 +1,7 @@
 import src.processing as processing
 import src.utils as utils
 import src.segmentation as segmentation
+import src.plotter3d as plotter
 
 if __name__ == "__main__":
 
@@ -26,3 +27,5 @@ if __name__ == "__main__":
         preview.extend([segment["colored"] for segment in images["segments"]])
 
         utils.show_img(preview, image_index)
+    
+    plotter.create_3d_image(src="final_img/merged_no_skull", dst="segmented_brain_colored", color=True)
