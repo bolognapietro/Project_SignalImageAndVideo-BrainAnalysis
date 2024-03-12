@@ -91,6 +91,7 @@ This project enables the processing of MRI brain images in various ways, all wit
         <img width="32%" src="assets/3d/s1.jpg"/>
         <img width="32%" src="assets/3d/s2.jpg"/>
         <img width="32%" src="assets/3d/s3.jpg"/>
+        <img width="32%" src="assets/3d/s4.jpg"/>
     </p>
     
 The proposed functions are all publicly accessible. The other functions should be considered private, as they are only support functions used internally.
