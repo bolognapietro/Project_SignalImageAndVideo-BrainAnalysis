@@ -44,6 +44,12 @@
               <!-- Local TOC -->
               <div class="local-toc"><ul>
 <li><a class="reference internal" href="#">classification module</a><ul>
+<li><a class="reference internal" href="#classification.LABELS"><code class="docutils literal notranslate"><span class="pre">LABELS</span></code></a><ul>
+<li><a class="reference internal" href="#classification.LABELS.CEREBROSPINAL_FLUID"><code class="docutils literal notranslate"><span class="pre">LABELS.CEREBROSPINAL_FLUID</span></code></a></li>
+<li><a class="reference internal" href="#classification.LABELS.GREY_MATTER"><code class="docutils literal notranslate"><span class="pre">LABELS.GREY_MATTER</span></code></a></li>
+<li><a class="reference internal" href="#classification.LABELS.WHITE_MATTER"><code class="docutils literal notranslate"><span class="pre">LABELS.WHITE_MATTER</span></code></a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#classification.segments_classification"><code class="docutils literal notranslate"><span class="pre">segments_classification()</span></code></a></li>
 </ul>
 </li>
@@ -82,11 +88,33 @@ The goal is to classify the provided regions (segments) in:</p>
 <li><p>Cerebrospinal fluid.</p></li>
 <li><p>White matter.</p></li>
 </ul>
+<dl class="py class">
+<dt class="sig sig-object py" id="classification.LABELS">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">classification.</span></span><span class="sig-name descname"><span class="pre">LABELS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#classification.LABELS" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
+<p>An enumeration.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="classification.LABELS.CEREBROSPINAL_FLUID">
+<span class="sig-name descname"><span class="pre">CEREBROSPINAL_FLUID</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Cerebrospinal</span> <span class="pre">fluid'</span></em><a class="headerlink" href="#classification.LABELS.CEREBROSPINAL_FLUID" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="classification.LABELS.GREY_MATTER">
+<span class="sig-name descname"><span class="pre">GREY_MATTER</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'GREY_MATTER'</span></em><a class="headerlink" href="#classification.LABELS.GREY_MATTER" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="classification.LABELS.WHITE_MATTER">
+<span class="sig-name descname"><span class="pre">WHITE_MATTER</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'WHITE_MATTER'</span></em><a class="headerlink" href="#classification.LABELS.WHITE_MATTER" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 <dl class="py function">
 <dt class="sig sig-object py" id="classification.segments_classification">
 <span class="sig-prename descclassname"><span class="pre">classification.</span></span><span class="sig-name descname"><span class="pre">segments_classification</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">segments</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color_segments</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#classification.segments_classification" title="Permalink to this definition"></a></dt>
 <dd><p>Classifies each segment, regardless of the algorithm used.
-This method is based on the area, specifically the ratio of white pixels to black pixels in each segment.
+This method is based on the area, specifically the ratio of colored pixels to black pixels in each segment.
 This allows for the classification of each segment; the cerebrospinal fluid has the smallest amount of white pixels,
 grey matter has a moderate amount, and white matter has the highest amount of white pixels.</p>
 <dl class="field-list simple">
