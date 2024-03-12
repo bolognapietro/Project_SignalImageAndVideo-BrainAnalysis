@@ -149,7 +149,8 @@ def plotImage(ply: go.Figure, img: np.ndarray, z_index: float, size: np.ndarray 
     # Otherwise, if the 'color' flag is True, add a trace with the correspondin color
     else:
         # Extract the RGB channels from the image and normalize the color values
-        colors = (img[:, :, :3] / 255.0).reshape((-1, 3))  
+        colors = (img[:, :, :3] / 255.0).reshape((-1, 3)) 
+        colors_bgr = (colors * 255.0).reshape((-1, 3))[:, ::-1]
 
         ply.add_trace(
             go.Scatter3d(
@@ -159,7 +160,7 @@ def plotImage(ply: go.Figure, img: np.ndarray, z_index: float, size: np.ndarray 
                 mode='markers',
                 marker=dict(
                     size=1,
-                    color=colors,
+                    color=colors_bgr,
                     opacity=1
                 ),
                 showlegend=False
@@ -168,7 +169,7 @@ def plotImage(ply: go.Figure, img: np.ndarray, z_index: float, size: np.ndarray 
 
     return None
 
-def create_3d_image(src: str, dst: str, color: bool = False) -> None:
+def create_3d_image(src: str, dst: str, color: bool = False, img_scale: int = 2) -> None:
     """
     Create a 3D image plot using a series of images.
 
@@ -180,6 +181,9 @@ def create_3d_image(src: str, dst: str, color: bool = False) -> None:
 
     :param color: Optional, whether to plot the image in color. Defaults to False.
     :type color: bool
+
+    :param img_scale: Optional, whether to plot the image in color. Defaults to False.
+    :type color: intcla
 
     :return: None
     :rtype: None
@@ -195,7 +199,7 @@ def create_3d_image(src: str, dst: str, color: bool = False) -> None:
         img = utils.load_img(os.path.join(src, filename))
         res = convert_to_png(src=img)
         
-        plotImage(ply, res, z_index, size=np.array((1, img.shape[0] / img.shape[1])), color=color)
+        plotImage(ply, res, z_index, size=np.array((1, img.shape[0] / img.shape[1])), img_scale=img_scale, color=color)
         z_index += 0.05
 
 
@@ -211,4 +215,4 @@ def create_3d_image(src: str, dst: str, color: bool = False) -> None:
     ply.show()
     
     print("Saving the plot...")
-    ply.write_html(os.path.join("plot_html", f"{dst}.html"))    
+    ply.write_html(f"web/web/plot_html/{dst}.html")

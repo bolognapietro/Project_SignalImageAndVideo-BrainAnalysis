@@ -23,9 +23,10 @@ if __name__ == "__main__":
         images = segmentation.kmeans_segmentation(src1=adjusted_image, src2=adjusted_brain)
 
         # Display images
-        preview = [adjusted_image, images["merged_skull"]]
+        preview = [adjusted_image, images["merged_no_skull"]]
         preview.extend([segment["colored"] for segment in images["segments"]])
 
         utils.show_img(preview, image_index)
+        utils.save_img(src=images["merged_no_skull"], filename=f"dataset/results/merged_no_skull/{image_index}.png", overwrite=True)
     
-    plotter.create_3d_image(src="final_img/merged_no_skull", dst="segmented_brain_colored", color=True)
+    plotter.create_3d_image(src="dataset/results/results/merged_no_skull", dst="segmented_brain_colored", color=True, img_scale=4)
