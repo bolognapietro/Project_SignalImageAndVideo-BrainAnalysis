@@ -72,9 +72,9 @@ This project enables the processing of MRI brain images in various ways, all wit
     
 4. **Segmentation and Classification**: In this phase, the final image undergoes segmentation using the K-means algorithm. Subsequently, a very basic classification approach is employed: each segment's area (colored pixels over black pixels) is utilized to differentiate regions. Typically, the analyzed segments exhibit a relatively consistent number of colored pixels, facilitating classification. This classification process organizes segments based on size, beginning with the smallest:
 
-    1. Cerebrospinal fluid
-    2. Grey matter
-    3. White matter
+    * Cerebrospinal fluid
+    * Grey matter
+    * White matter<br><br>
 
     ```python
     # Perform segmentation using K-means
@@ -85,7 +85,7 @@ This project enables the processing of MRI brain images in various ways, all wit
         <img width="100%" src="assets/code_overview/segmentation_and_classification.png"/>
     </p>
 
-5. **3D plot**: In this part, the code involves iterating through a series of images from the result directory (src), converting them to PNG format, and plotting them on a 3D graph (dst). The resulting 3D plot is displayed interactively and saved as an HTML file. The function allows customization of color (keep the original colors of the image) and image scale (the rescaling of the image).
+4. **3D plot**: In this part, the code involves iterating through a series of images from the result directory (src), converting them to PNG format, and plotting them on a 3D graph (dst). The resulting 3D plot is displayed interactively and saved as an HTML file. The function allows customization of color (keep the original colors of the image) and image scale (the rescaling of the image).
     
     ```python
     # Create 3D graph
