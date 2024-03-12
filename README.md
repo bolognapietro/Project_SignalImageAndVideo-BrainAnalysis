@@ -108,14 +108,15 @@ This project enables the processing of MRI brain images in various ways, all wit
     git clone https://github.com/christiansassi/signal-image-and-video-project.git
     cd signal-image-and-video-project
     ```
-
-2. Install all the dependencies:
+2. Unzip [results.zip](dataset/results/results.zip).
+3. Unzip [web.zip](web/web.zip).
+4. Install all the dependencies:
 
     ```bash
     pip install -r requirements.txt
     ```
 
-3. Run [main.py](main.py). This example will segment some of the images within the dataset.
+5. Run [main.py](main.py). This example will segment some of the images within the dataset.
 
     ```
     python3 main.py
