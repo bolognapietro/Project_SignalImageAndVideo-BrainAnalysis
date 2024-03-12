@@ -24,9 +24,9 @@ The goal of this project is to develop an algorithm capable of performing the se
 #### 3D Segmentation
 
 <p float="left" align="center">
-    <img width="32%" src="assets/3d/s1.png"/>
-    <img width="32%" src="assets/3d/s2.png"/>
-    <img width="32%" src="assets/3d/s3.png"/>
+    <img width="32%" src="assets/3d/pippo.png"/>
+    <img width="32%" src="assets/3d/pluto.png"/>
+    <img width="32%" src="assets/3d/paperino.png"/>
 </p>
 
 #### Disclaimer
