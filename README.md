@@ -21,14 +21,6 @@ The goal of this project is to develop an algorithm capable of performing the se
 
 <img src="assets/demo/obtained-results.png"/>
 
-#### 3D Segmentation
-
-<p float="left" align="center">
-    <img width="32%" src="assets/3d/s1.jpg"/>
-    <img width="32%" src="assets/3d/s2.jpg"/>
-    <img width="32%" src="assets/3d/s3.jpg"/>
-</p>
-
 #### Disclaimer
 
 Aside from the segmentation aspect, the algorithm employed in this project is designed to generalize well even when applied to images not included in the dataset. However, its flexibility is somewhat limited compared to algorithms that utilize more advanced techniques, such as machine learning algorithms. Nonetheless, it can closely resemble real medical segmentations.
@@ -90,6 +82,12 @@ This project enables the processing of MRI brain images in various ways, all wit
 
 5. **3D plot**: (todo)
 
+    <p float="left" align="center">
+        <img width="32%" src="assets/3d/s1.jpg"/>
+        <img width="32%" src="assets/3d/s2.jpg"/>
+        <img width="32%" src="assets/3d/s3.jpg"/>
+    </p>
+    
 The proposed functions are all publicly accessible. The other functions should be considered private, as they are only support functions used internally.
 
 > [!NOTE]
