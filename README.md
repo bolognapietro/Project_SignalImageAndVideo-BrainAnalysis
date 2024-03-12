@@ -84,7 +84,12 @@ This project enables the processing of MRI brain images in various ways, all wit
     
     ```python
     # Create 3D graph
-    plotter.create_3d_image(src="dataset/results/results/merged_no_skull", dst="segmented_brain_colored", color=True, img_scale=4)
+    plotter.create_3d_image(
+        src="dataset/results/results/merged_no_skull",
+        dst="segmented_brain_colored",
+        color=True,
+        img_scale=4
+    )
     ```
 
     <p float="left" align="center">
@@ -118,7 +123,8 @@ This project enables the processing of MRI brain images in various ways, all wit
    ```
    
 > [!IMPORTANT]
-> Be sure to have "unzip" installed. Alternatively, you can install it using `sudo apt install unzip -y`
+> Be sure to have "unzip" installed. You can install it using `sudo apt install unzip -y`
+> Alternatively, you can use other tools.
 
 4. Unzip [web.zip](web/web.zip).
    
