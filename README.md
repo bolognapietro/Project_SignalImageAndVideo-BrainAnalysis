@@ -80,7 +80,12 @@ This project enables the processing of MRI brain images in various ways, all wit
         <img width="100%" src="assets/code_overview/segmentation_and_classification.png"/>
     </p>
 
-5. **3D plot**: (todo)
+5. **3D plot**: In this part, the code involves iterating through a series of images from the result directory (src), converting them to PNG format, and plotting them on a 3D graph (dst). The resulting 3D plot is displayed interactively and saved as an HTML file. The function allows customization of color (keep the original colors of the image) and image scale (the rescaling of the image).
+    
+    ```python
+    # Create 3D graph
+    plotter.create_3d_image(src="dataset/results/results/merged_no_skull", dst="segmented_brain_colored", color=True, img_scale=4)
+    ```
 
     <p float="left" align="center">
         <img width="32%" src="assets/3d/s1.jpg"/>
