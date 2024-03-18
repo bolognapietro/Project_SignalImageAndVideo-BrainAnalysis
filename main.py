@@ -29,4 +29,4 @@ if __name__ == "__main__":
         utils.show_img(preview, image_index)
         utils.save_img(src=images["merged_no_skull"], filename=f"dataset/results/merged_no_skull/{image_index}.png", overwrite=True)
     
-    plotter.create_3d_image(src="dataset/results/results/merged_no_skull", dst="segmented_brain_colored", color=True, img_scale=4)
+    plotter.create_3d_image(src="dataset/results/merged_no_skull", dst="segmented_brain_colored", color=True, img_scale=4)
