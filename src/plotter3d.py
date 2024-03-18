@@ -215,4 +215,4 @@ def create_3d_image(src: str, dst: str, color: bool = False, img_scale: int = 2)
     ply.show()
     
     print("Saving the plot...")
-    ply.write_html(f"web/web/plot_html/{dst}.html")
+    ply.write_html(f"web/plot_html/{dst}.html")
