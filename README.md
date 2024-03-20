@@ -70,14 +70,14 @@ This project enables the processing of MRI brain images in various ways, all wit
         <img width="25%" src="assets/code_overview/adjusted_brain_fix.png"/>
     </p>
     
-4. **Segmentation and Classification**: In this phase, the final image undergoes segmentation using the K-means algorithm. Subsequently, a very basic classification approach is employed: each segment's area (colored pixels over black pixels) is utilized to differentiate regions. Typically, the analyzed segments exhibit a relatively consistent number of colored pixels, facilitating classification. This classification process organizes segments based on size, beginning with the smallest:
+4. **Segmentation and Classification**: In this phase, the final image undergoes segmentation using the K-Means algorithm. Subsequently, a very basic classification approach is employed: each segment's area (colored pixels over black pixels) is utilized to differentiate regions. Typically, the analyzed segments exhibit a relatively consistent number of colored pixels, facilitating classification. This classification process organizes segments based on size, beginning with the smallest:
 
     * Cerebrospinal fluid
     * Grey matter
     * White matter<br><br>
 
     ```python
-    # Perform segmentation using K-means
+    # Perform segmentation using K-Means
     images = segmentation.kmeans_segmentation(src1=img, src2=brain)
     ```
 
