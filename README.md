@@ -92,7 +92,7 @@ This project enables the processing of MRI brain images in various ways, all wit
     plotter.create_3d_image(
         src="dataset/results/results/merged_no_skull",
         dst="segmented_brain_colored",
-        color=True,
+        color=False,
         img_scale=4
     )
     ```
