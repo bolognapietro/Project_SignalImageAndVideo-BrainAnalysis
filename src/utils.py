@@ -98,7 +98,13 @@ def show_img(src: Union[np.ndarray, list], winname: str = "Image", ncolumns: int
         src = np.vstack(tup=rows) 
 
     # Display the image(s)
-    cv2.imshow(winname=str(winname), mat=src)
+    scale_percent = 70 # percent o.f original size
+    width = int(src.shape[1] * scale_percent / 100)
+    height = int(src.shape[0] * scale_percent / 100)
+    dim = (width, height)
+    resized = cv2.resize(src, dim)
+
+    cv2.imshow(winname=str(winname), mat=resized)
     cv2.waitKey(delay=0)
     cv2.destroyAllWindows()
 
