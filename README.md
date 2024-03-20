@@ -58,7 +58,7 @@ This project enables the processing of MRI brain images in various ways, all wit
         <img width="25%" src="assets/code_overview/skull.png"/>
     </p>
 
-3. **Brain adjustment**: in this phase, all objects remaining in the image are examined to determine if they could be part of the brain. The analysis involves subtracting both the skull and the brain from the original image. Any objects intersecting (partially or completely) with the brain are considered as potential components of it.
+3. **Brain adjustment**: in this phase, all objects remaining in the image are examined to determine if they could be part of the brain. The analysis involves subtracting both the skull (`skull`) and the brain (`brain`) from the original image (`img`). Any objects intersecting (partially or completely) with the brain are considered as potential components of it.
 
     ```python
     # Adjust the brain
@@ -85,7 +85,7 @@ This project enables the processing of MRI brain images in various ways, all wit
         <img width="100%" src="assets/code_overview/segmentation_and_classification.png"/>
     </p>
 
-4. **3D plot**: In this part, the code involves iterating through a series of images from the result directory (src), converting them to PNG format, and plotting them on a 3D graph (dst). The resulting 3D plot is displayed interactively and saved as an HTML file. The function allows customization of color (keep the original colors of the image) and image scale (the rescaling of the image).
+4. **3D plot**: In this part, the code involves iterating through a series of images from the result directory (`src`), converting them to PNG format, and plotting them on a 3D graph (`dst`). The resulting 3D plot is displayed interactively and saved as an HTML file. The function allows customization of color (keep the original colors of the image) and image scale (the rescaling of the image).
     
     ```python
     # Create 3D graph
