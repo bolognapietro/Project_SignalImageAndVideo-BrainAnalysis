@@ -19,7 +19,7 @@ if __name__ == "__main__":
         # Adjust the brain
         adjusted_brain = processing.adjust_brain(src1=adjusted_image, src2=brain, src3=skull)
 
-        # Perform segmentation using K-means
+        # Perform segmentation using K-Means
         images = segmentation.kmeans_segmentation(src1=adjusted_image, src2=adjusted_brain)
 
         # Display images
