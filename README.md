@@ -115,7 +115,7 @@ This project enables the processing of MRI brain images in various ways, all wit
 1. Initialize the workspace:
 
     ```bash
-    git clone https://github.com/christiansassi/signal-image-and-video-project.git
+    git clone https://github.com/christiansassi/signal-image-and-video-project
     cd signal-image-and-video-project
     ```
 2. In the root folder of the repo, unzip [results.zip](dataset/results/results.zip).
