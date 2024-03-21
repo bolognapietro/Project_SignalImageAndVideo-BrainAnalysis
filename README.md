@@ -140,7 +140,7 @@ This project enables the processing of MRI brain images in various ways, all wit
 4. Install all the python dependencies:
 
     ```bash
-    pip install -r requirements.txt
+    pip3 install -r requirements.txt
     ```
 
 5. Run [main.py](main.py). This example will segment some of the images within the dataset.
