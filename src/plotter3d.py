@@ -194,7 +194,8 @@ def create_3d_image(src: str, dst: str, color: bool = False, img_scale: int = 2)
     # List of files sorted in descending order.
     files = sorted(os.listdir(src), key=lambda x: int(x.split('.')[0]), reverse=True)
 
-    z_index=0
+    z_index = 0
+
     for filename in files:
         img = utils.load_img(os.path.join(src, filename))
         res = convert_to_png(src=img)
