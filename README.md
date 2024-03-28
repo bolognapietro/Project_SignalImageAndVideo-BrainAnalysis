@@ -152,6 +152,25 @@ This project enables the processing of MRI brain images in various ways, all wit
 > [!WARNING]
 > The current implementation in `main.py` focuses on a specific range of axial brain images. This excludes the uppermost and bottommost slices due to two challenges. Firstly, these end sections often contain very small portions of the brain, which are less informative for segmentation purposes. Secondly, these areas can be more complex and may require advanced image processing techniques beyond the scope of this project.
 
+<p align="center" text-align="center">
+  <img width="100%" src="assets/videos/segmented_skull_colored.gif">
+  <br>
+  <span><i>Segmented 3D plot</i></span>
+</p>
+<br>
+<p align="center" text-align="center">
+  <img width="100%" src="assets/videos/removed_skull.gif">
+  <br>
+  <span><i>Brain 3D plot</i></span>
+</p>
+<br>
+<p align="center" text-align="center">
+  <img width="100%" src="assets/videos/cerebrospinal_fluid.gif">
+  <br>
+  <span><i>Cerebrospinal fluid 3D plot</i></span>
+</p>
+<br>
+
 # Contacts
 
 Pietro Bologna - [pietro.bologna@studenti.unitn.it](mailto:pietro.bologna@studenti.unitn.it)
