@@ -17,6 +17,8 @@
 # Introduction
 
 The goal of this project is to develop an algorithm capable of performing the segmentation of a MRI brain dataset. The script specifically analyzes MRI images of the brain in axial orientation, where the slices are acquired horizontally, like taking pictures from top to bottom. Finally, the analyzed images are merged to create a 3D representation of the segmentation.
+</b></br></br>
+More information can be found [**here**](resources/Brain_MRI_Analysis_REPORT.pdf).
 
 #### Expected results
 
